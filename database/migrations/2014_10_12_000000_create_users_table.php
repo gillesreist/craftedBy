@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('firstname', 55);
             $table->string('lastname', 55);
             $table->dateTime('birthdate');
+            $table->integer('role');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained();
-            $table->string('name', 55);
-            $table->integer('type');
-            $table->string('firstname', 55);
-            $table->string('lastname', 55);
-            $table->string('first_address_line', 255);
-            $table->string('second_address_line', 255);
-            $table->integer('postal_code');
-            $table->string('city');
+            $table->integer('status');
+            $table->float('price');
+            $table->datetime('date');
+            $table->string('delivery_address');
+            $table->string('facturation_address')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('orders');
     }
 };
