@@ -25,7 +25,7 @@ class ProductFactory extends Factory
 
         return [
             'user_id' => $user->id,
-            // 'customization_id' => $customization->id,
+            'customization_id' => $customization->id,
             'name' => fake()->word(),
             'description' => fake()->text(200),
         ];

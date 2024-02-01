@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
+use App\Models\Sku;
+use App\Models\Tax;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +20,10 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        $userId = User::inRandomOrder()->first()->id;
+
         return [
+            'user_id' => $userId,
             'status' => rand(0,7),
             'price' => fake()->randomFloat(2,10,999999),
             'date' => fake()->DateTime(),

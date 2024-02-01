@@ -24,9 +24,11 @@ class DatabaseSeeder extends Seeder
             CustomizationSeeder::class,
             MaterialSeeder::class,
             CategorySeeder::class,
+            TaxSeeder::class,
             UserSeeder::class,
             CrafterSeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

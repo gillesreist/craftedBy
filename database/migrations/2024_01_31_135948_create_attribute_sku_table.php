@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attribute_sku', function (Blueprint $table) {
-            $table->uuid('id')->primary()->default(DB::raw('UUID()'));
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->foreignUuid('attribute_id')->constrained();
             $table->foreignUuid('sku_id')->constrained();
             $table->string('name'); 

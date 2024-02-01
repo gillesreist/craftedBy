@@ -26,6 +26,7 @@ class CrafterFactory extends Factory
             'story' => fake()->text(200),
             'crafting_process' => fake()->text(200),
             'location' => fake()->text(200),
-            'material_preferences' => fake()->text(200),        ];
+            'material_preferences' => fake()->text(200),        
+        ];
     }
 }

@@ -2,14 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Attribute;
-use App\Models\Sku;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sku>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tax>
  */
-class SkuFactory extends Factory
+class TaxFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,9 +18,9 @@ class SkuFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'unit_price' => fake()->randomFloat(2,10,999999),
-            'status' => rand(0,2),
-            'is_active' => rand(0,1),
+            'value' => fake()->randomFloat(1,0,100),
+            'validity_start' => fake()->dateTime(),
+            'validity_end' => fake()->dateTime(),
         ];
     }
 }
