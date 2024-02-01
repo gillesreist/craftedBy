@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Crafter extends Model
+class Order extends Model
 {
     use HasFactory, HasUuids;
 
@@ -19,8 +20,8 @@ class Crafter extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function images(): MorphMany
+    public function skus(): BelongsToMany
     {
-        return $this->morphMany(Image::class, 'imageable');
+        return $this->belongsToMany(Sku::class)->withPivot('name','unit_price','quantity','tax_id');
     }
 }
