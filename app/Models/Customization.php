@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customization extends Model
 {
@@ -13,9 +14,9 @@ class Customization extends Model
 
     protected $guarded = [];
 
-    public function product(): BelongsTo
+    public function products(): HasMany
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->hasMany(Product::class);
     }
 
 }

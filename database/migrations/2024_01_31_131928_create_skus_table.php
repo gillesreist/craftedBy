@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('skus', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('product_id')->constrained();
             $table->timestamps();
             $table->string('name');
             $table->float('unit_price');

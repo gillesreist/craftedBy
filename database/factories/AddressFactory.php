@@ -22,7 +22,7 @@ class AddressFactory extends Factory
             'type' => rand(0,2),
             'name' => fake()->word(),
             'first_address_line' => fake()->streetAddress(),
-            'second_adress_line' => fake()->secondaryAddress(),
+            'second_address_line' => fake()->secondaryAddress(),
             'postal_code' => fake()->postcode(),
             'city' => fake()->city(),
         ];

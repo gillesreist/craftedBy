@@ -18,7 +18,7 @@ class SkuFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'price' => fake()->randomFloat(2,10,999999),
+            'unit_price' => fake()->randomFloat(2,10,999999),
             'status' => rand(0,2),
             'is_active' => rand(0,1),
         ];

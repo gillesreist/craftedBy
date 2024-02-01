@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lastname', 55);
             $table->string('first_address_line', 255);
             $table->string('second_address_line', 255);
-            $table->integer('postal_code');
+            $table->string('postal_code', 55);
             $table->string('city');
             $table->timestamps();
         });

@@ -20,14 +20,14 @@ class Product extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // public function skus(): HasMany
-    // {
-    //     return $this->hasMany(Sku::class);
-    // }
-
-    public function customizations(): HasMany
+    public function skus(): HasMany
     {
-        return $this->hasMany(Customization::class);
+        return $this->hasMany(Sku::class);
+    }
+
+    public function customization(): BelongsTo
+    {
+        return $this->belongsTo(Customization::class, 'customization_id');
     }
 
     public function categories(): BelongsToMany

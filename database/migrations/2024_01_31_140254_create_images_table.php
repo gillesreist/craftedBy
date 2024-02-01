@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('image', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->morphs('imageable');
+            $table->uuidMorphs('imageable');
             $table->string('name');
             $table->string('size');
             $table->timestamps();

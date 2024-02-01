@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('customizations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('product_id')->constrained();
             $table->string('name')->unique();
             $table->timestamps();
         });

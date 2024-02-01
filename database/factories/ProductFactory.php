@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Customization;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +18,14 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+
+        $user = User::inRandomOrder()->first();
+        $customization = Customization::inRandomOrder()->first();
+
+
         return [
+            'user_id' => $user->id,
+            // 'customization_id' => $customization->id,
             'name' => fake()->word(),
             'description' => fake()->text(200),
         ];
