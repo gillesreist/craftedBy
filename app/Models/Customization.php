@@ -13,6 +13,8 @@ class Customization extends Model
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+    protected $hidden = ['id', 'created_at', 'updated_at'];
+
 
     public function products(): HasMany
     {

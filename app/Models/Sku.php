@@ -14,6 +14,8 @@ class Sku extends Model
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+    protected $hidden = ['id', 'product_id', 'created_at', 'updated_at'];
+
 
     public function product(): BelongsTo
     {

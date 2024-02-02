@@ -13,6 +13,8 @@ class Material extends Model
 
     protected $guarded = [];
 
+    protected $hidden = ['id', 'created_at', 'updated_at', 'pivot'];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class);

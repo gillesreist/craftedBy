@@ -15,6 +15,8 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $hidden = ['id', 'created_at', 'updated_at', 'customization_id', 'crafter_id'];
+
     public function crafter(): BelongsTo
     {
         return $this->belongsTo(Crafter::class, 'crafter_id');

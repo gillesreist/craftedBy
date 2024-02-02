@@ -12,6 +12,8 @@ class Attribute extends Model
     use HasFactory, HasUuids;
 
     protected $guarded = [];
+    protected $hidden = ['id', 'created_at', 'updated_at', 'pivot'];
+
 
     public function skus(): BelongsToMany
     {
