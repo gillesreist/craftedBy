@@ -15,9 +15,9 @@ class Product extends Model
 
     protected $guarded = [];
 
-    public function user(): BelongsTo
+    public function crafter(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Crafter::class, 'crafter_id');
     }
 
     public function skus(): HasMany
