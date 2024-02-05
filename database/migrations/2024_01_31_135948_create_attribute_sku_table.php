@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
             $table->foreignUuid('attribute_id')->constrained();
             $table->foreignUuid('sku_id')->constrained();
-            $table->string('name'); 
+            $table->string('attribute_value'); 
             $table->timestamps();
         });
     }

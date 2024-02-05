@@ -35,10 +35,10 @@ class ProductSeeder extends Seeder
                 $materials = Material::inRandomOrder()->limit(2)->get();
                 $product->materials()->attach($materials);
 
-                // Pour chaque sku du produit, j'attache des attributes en remplissant le champ 'name'
+                // Pour chaque sku du produit, j'attache des attributes en remplissant le champ 'attribute_value'
                 $product->skus->each(function (Sku $sku) {
                     $attributes = Attribute::inRandomOrder()->take(rand(1, 3))->get();
-                    $sku->attributes()->attach($attributes, ['name' => fake()->word()]);
+                    $sku->attributes()->attach($attributes, ['attribute_value' => fake()->word()]);
                 });
             });
     }

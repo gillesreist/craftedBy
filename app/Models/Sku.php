@@ -29,7 +29,7 @@ class Sku extends Model
 
     public function attributes(): BelongsToMany
     {
-        return $this->belongsToMany(Attribute::class)->withPivot('name');
+        return $this->belongsToMany(Attribute::class)->withPivot('attribute_value');
     }
 
     public function images(): MorphMany

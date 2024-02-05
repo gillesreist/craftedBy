@@ -17,6 +17,6 @@ class Attribute extends Model
 
     public function skus(): BelongsToMany
     {
-        return $this->belongsToMany(Sku::class)->withPivot('name');
+        return $this->belongsToMany(Sku::class)->withPivot('attribute_value');
     }
 }

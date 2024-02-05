@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         return Product::with(['categories', 'materials', 'customization', 
         'skus.attributes' => function ($query) {
-            $query->select('attributes.name as attribute_name', 'attribute_sku.name as attribute_value');
+            $query->select('name', 'attribute_value');
         }])
         ->get();
     }
@@ -66,7 +66,7 @@ class ProductController extends Controller
     {
         return $product->load(['categories', 'materials', 'customization', 
         'skus.attributes' => function ($query) {
-            $query->select('attributes.name as attribute_name', 'attribute_sku.name as attribute_value');
+            $query->select('name', 'attribute_value');
         }]);
     }
 
