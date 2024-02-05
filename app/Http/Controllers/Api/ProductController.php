@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Customization;
@@ -32,7 +33,7 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request)
-    {       
+    {
         $product = Product::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -89,10 +90,6 @@ class ProductController extends Controller
             }
         }
 
-
-
-
-
         return response()->json(['message' => "Produit créé avec succès", "id" => $product->id], 201);
     }
 
@@ -112,9 +109,48 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->all());
+        $product->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description')
+        ]);
+
+        $product->categories()->detach();
+        $product->materials()->detach();
+        $product->customization()->dissociate();
+
+        // Créer et attacher chaque catégorie au produit
+        foreach ($request->categories as $categoryName) {
+            $category = Category::where('name', $categoryName)->first();
+
+            if ($category) {
+                // Attachez la catégorie au produit
+                $product->categories()->attach($category->id);
+            }
+        }
+
+        // Créer et attacher chaque material au produit
+        foreach ($request->materials as $materialName) {
+            $material = Material::where('name', $materialName)->first();
+
+            if ($material) {
+                // Attachez le material au produit
+                $product->materials()->attach($material->id);
+            }
+        }
+
+        // Vérifier la customization
+        if ($request->has('customization')) {
+            // Créer et attacher la customization au produit
+            $customization = Customization::where('name', $request->customization)->first();
+
+            if ($customization) {
+                $product->customization()->associate($customization->id);
+            }
+        }
+
+        return response()->json(['message' => "Produit modifié avec succès", "id" => $product->id], 201);
     }
 
     /**

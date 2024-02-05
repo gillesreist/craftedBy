@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attribute as ModelsAttribute;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 
 class AttributeController extends Controller
@@ -13,7 +13,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        return ModelsAttribute::with(['skus'])->get();
+        return Attribute::with(['skus'])->get();
     }
 
     /**
@@ -21,30 +21,37 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attribute = Attribute::create($request->all());
+        return response()->json(['message' => "Attribut créé avec succès", "id" => $attribute->id], 201);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Attribute $attribute)
     {
-        //
+        return $attribute->load([
+            'skus.attributes' => function ($query) {
+                $query->select('name', 'attribute_value');
+            }
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Attribute $attribute)
     {
-        //
+        $attribute->update($request->all());
+        return response()->json(['message' => "Attribut modifié avec succès", "id" => $attribute->id], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Attribute $attribute)
     {
-        //
+        $attribute->delete();
     }
 }
