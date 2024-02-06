@@ -21,13 +21,12 @@ class ProductSeeder extends Seeder
     {
         Product::factory(100)
 
-            // Pour chaque produit créé, je génère 3 variations
             ->has(Sku::factory(3)
                 ->hasImages(2))
 
             ->create()
 
-            // Pour chaque produit, je lui attache des categories et materials.
+            // Attach categories and materials to each product.
             ->each(function (Product $product) {
 
                 $categories = Category::inRandomOrder()->limit(2)->get();
@@ -35,7 +34,7 @@ class ProductSeeder extends Seeder
                 $materials = Material::inRandomOrder()->limit(2)->get();
                 $product->materials()->attach($materials);
 
-                // Pour chaque sku du produit, j'attache des attributes en remplissant le champ 'attribute_value'
+                // Attach attributes to each sku with attribute_value field in pivot
                 $product->skus->each(function (Sku $sku) {
                     $attributes = Attribute::inRandomOrder()->take(rand(1, 3))->get();
                     $sku->attributes()->attach($attributes, ['attribute_value' => fake()->word()]);

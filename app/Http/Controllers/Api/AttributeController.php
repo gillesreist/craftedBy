@@ -13,7 +13,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        return Attribute::with(['skus'])->get();
+        return Attribute::all();
     }
 
     /**
@@ -22,7 +22,7 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $attribute = Attribute::create($request->all());
-        return response()->json(['message' => "Attribut créé avec succès", "id" => $attribute->id], 201);
+        return response()->json(['message' => "Attribute created with success", "id" => $attribute->id], 201);
 
     }
 
@@ -31,11 +31,9 @@ class AttributeController extends Controller
      */
     public function show(Attribute $attribute)
     {
-        return $attribute->load([
-            'skus.attributes' => function ($query) {
-                $query->select('name', 'attribute_value');
-            }
-        ]);
+        return $attribute->skus()->with(['attributes' => function ($query) {
+            $query->select('attributes.*', 'attribute_sku.attribute_value');
+        }])->get();
     }
 
     /**
@@ -44,7 +42,7 @@ class AttributeController extends Controller
     public function update(Request $request, Attribute $attribute)
     {
         $attribute->update($request->all());
-        return response()->json(['message' => "Attribut modifié avec succès", "id" => $attribute->id], 201);
+        return response()->json(['message' => "Attribute modified with success", "id" => $attribute->id], 200);
     }
 
     /**

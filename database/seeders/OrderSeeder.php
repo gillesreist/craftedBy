@@ -18,15 +18,15 @@ class OrderSeeder extends Seeder
         Order::factory(20)
             ->create()
 
-            // Attacher un ou plusieurs SKU à l'order
+            // Attach one or several SKUs to order
             ->each(function (Order $order) {
                 $skus = Sku::inRandomOrder()->take(rand(1, 10))->get();
 
-                // pour chaque association, rajouter des infos dans la table
+                // for each association, complete field in pivot table
                 foreach ($skus as $sku) {
                     $name = $sku->name;
                     $unit_price = $sku->unit_price;
-                    // mettre l'id d'une taxe dans la foreign key tax_id de la table order_sku
+                    // add tax id in foreign key tax_id of order_sku table
                     $tax_id = Tax::inRandomOrder()->first()->id;
                     $quantity = rand(1,5);
                     

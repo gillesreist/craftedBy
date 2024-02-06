@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $hidden = ['id', 'created_at', 'updated_at', 'customization_id', 'crafter_id'];
+    protected $hidden = ['id', 'created_at', 'updated_at', 'customization_id', 'crafter_id', 'pivot'];
 
     public function crafter(): BelongsTo
     {

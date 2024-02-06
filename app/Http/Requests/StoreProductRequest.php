@@ -54,28 +54,28 @@ class StoreProductRequest extends FormRequest
             //each sku must not have the same attributes combination
             'skus' => [
                 function ($attribute, $value, $fail) {
-                    // Stocke les valeurs d'attribut associées à chaque nom
+                    // For stocking each sku attributes combination
                     $attributeValues = [];
 
                     foreach ($value as $skuData) {
-                        // Vérifie si les attributs sont présents avant de les traiter
+                        // Check if there is attributes
                         if (isset($skuData['attributes']) && is_array($skuData['attributes'])) {
                             $attributes = $skuData['attributes'];
 
-                            // Trie les attributs par nom pour garantir la cohérence
+                            // Sort attributes by names
                             usort($attributes, function ($a, $b) {
                                 return $a['name'] <=> $b['name'];
                             });
 
-                            // Génère une clé unique pour cette combinaison d'attributs
+                            // Generate key for this set of attributes
                             $key = json_encode($attributes);
 
-                            // Si cette combinaison existe déjà, échoue la validation
+                            // Check if this key already exists
                             if (isset($allAttributeCombinations[$key])) {
                                 $fail("Attribute combinations must be different for each sku.");
                             }
 
-                            // Stocke la combinaison d'attributs pour tous les skus
+                            // Stock this key
                             $allAttributeCombinations[$key] = true;
                         }
                     }

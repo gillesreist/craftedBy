@@ -18,15 +18,31 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Product::with([
-            'categories', 'materials', 'customization',
-            'skus.attributes' => function ($query) {
+        $products = Product::query()
+
+        ->when($request->has('materials'), function ($query) use ($request) {
+            $materials = explode(',', $request->query('materials', ''));
+            $query->whereHas('materials', function ($query) use ($materials) {
+                $query->whereIn('name', $materials);
+            });
+        })
+        ->when($request->has('categories'), function ($query) use ($request) {
+            $categories = explode(',', $request->query('categories', ''));
+            $query->whereHas('categories', function ($query) use ($categories) {
+                $query->whereIn('name', $categories);
+            });
+        })
+        ->with([
+            'categories','materials','skus.attributes' => function ($query) {
                 $query->select('name', 'attribute_value');
             }
         ])
-            ->get();
+        ->get();
+
+        return $products;
+
     }
 
     /**
@@ -40,36 +56,33 @@ class ProductController extends Controller
             'crafter_id' => $request->input('crafter_id')
         ]);
 
-        // Créer et attacher chaque catégorie au produit
+        // Create and attach categories to product
         foreach ($request->categories as $categoryName) {
             $category = Category::where('name', $categoryName)->first();
 
             if ($category) {
-                // Attachez la catégorie au produit
                 $product->categories()->attach($category->id);
             }
         }
 
-        // Créer et attacher chaque material au produit
+        // Create and attach materials to product
         foreach ($request->materials as $materialName) {
             $material = Material::where('name', $materialName)->first();
 
             if ($material) {
-                // Attachez le material au produit
                 $product->materials()->attach($material->id);
             }
         }
 
-        // Vérifier la customization
+        // Create and associate customization to product
         if ($request->has('customization')) {
-            // Créer et attacher la customization au produit
             $customization = Customization::where('name', $request->customization)->first();
 
             if ($customization) {
                 $product->customization()->associate($customization->id);
             }
         }
-        // Créer et attacher chaque Sku au produit
+        // Create and attach skus to product
         foreach ($request->skus as $skuData) {
             $skuData['product_id'] = $product->id;
             $sku = Sku::create([
@@ -80,7 +93,7 @@ class ProductController extends Controller
                 'is_active' => $skuData['is_active'],
             ]);
 
-            // Vérifier si les Skus ont des attributes et les attacher
+            // Check for skus attributes and attach them
             if (isset($skuData['attributes']) && !empty($skuData['attributes'])) {
                 foreach ($skuData['attributes'] as $attributeData) {
 
@@ -90,7 +103,7 @@ class ProductController extends Controller
             }
         }
 
-        return response()->json(['message' => "Produit créé avec succès", "id" => $product->id], 201);
+        return response()->json(['message' => "Product created with success", "id" => $product->id], 201);
     }
 
     /**
@@ -120,29 +133,26 @@ class ProductController extends Controller
         $product->materials()->detach();
         $product->customization()->dissociate();
 
-        // Créer et attacher chaque catégorie au produit
+        // Create and associate categories to product
         foreach ($request->categories as $categoryName) {
             $category = Category::where('name', $categoryName)->first();
 
             if ($category) {
-                // Attachez la catégorie au produit
                 $product->categories()->attach($category->id);
             }
         }
 
-        // Créer et attacher chaque material au produit
+        // Create and associate materials to product
         foreach ($request->materials as $materialName) {
             $material = Material::where('name', $materialName)->first();
 
             if ($material) {
-                // Attachez le material au produit
                 $product->materials()->attach($material->id);
             }
         }
 
-        // Vérifier la customization
+        // Create and associate customization to product
         if ($request->has('customization')) {
-            // Créer et attacher la customization au produit
             $customization = Customization::where('name', $request->customization)->first();
 
             if ($customization) {
@@ -150,7 +160,7 @@ class ProductController extends Controller
             }
         }
 
-        return response()->json(['message' => "Produit modifié avec succès", "id" => $product->id], 201);
+        return response()->json(['message' => "Product modified with success", "id" => $product->id], 200);
     }
 
     /**
