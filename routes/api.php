@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AttributeController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomizationController;
 use App\Http\Controllers\Api\MaterialController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SkuController;
 use App\Http\Controllers\Api\TaxController;
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('skus', SkuController::class);
     Route::apiResource('taxes', TaxController::class);
     Route::apiResource('customizations', CustomizationController::class);
+    Route::apiResource('orders', OrderController::class);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
