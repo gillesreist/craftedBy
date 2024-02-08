@@ -27,6 +27,7 @@ class SkuController extends Controller
             'name' => $request->input('name'),
             'unit_price' => $request->input('unit_price'),
             'status' => $request->input('status'),
+            'stock' => $request->input('stock'),
             'is_active' => $request->input('is_active'),
         ]);
 
