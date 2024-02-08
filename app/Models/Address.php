@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AddressEnum;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,5 +18,17 @@ class Address extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+
+    public function getTypeAttribute(): string
+    {
+        return AddressEnum::from($this->attributes['type'])->name;
+    }
+ 
+    public function setTypeAttribute($typeName): void
+    {
+        $this->attributes['type'] = constant("App\Enums\AddressEnum::$typeName");
+    }
+
 
 }

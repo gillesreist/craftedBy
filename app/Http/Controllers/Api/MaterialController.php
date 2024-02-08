@@ -30,7 +30,7 @@ class MaterialController extends Controller
      */
     public function show(Material $material)
     {
-        return $material->products()->get();
+        return $material->load(['products']);
     }
 
     /**

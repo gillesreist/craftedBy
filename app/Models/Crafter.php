@@ -15,6 +15,8 @@ class Crafter extends Model
 
     protected $guarded = [];
 
+    protected $hidden = ['id', 'user_id', 'created_at', 'updated_at'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

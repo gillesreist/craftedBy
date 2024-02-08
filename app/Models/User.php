@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -64,4 +65,16 @@ class User extends Authenticatable
     {
         return $this->morphMany(Image::class, 'imageable');
     }
+
+    public function getRoleAttribute(): string
+    {
+        return RoleEnum::from($this->attributes['role'])->name;
+    }
+ 
+    public function setRoleAttribute($roleName): void
+    {
+        $this->attributes['role'] = constant("App\Enums\RoleEnum::$roleName");
+    }
+
+
 }

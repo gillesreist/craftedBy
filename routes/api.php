@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AttributeController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CrafterController;
 use App\Http\Controllers\Api\CustomizationController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SkuController;
 use App\Http\Controllers\Api\TaxController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('taxes', TaxController::class);
     Route::apiResource('customizations', CustomizationController::class);
     Route::apiResource('orders', OrderController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('crafters', CrafterController::class);
+    Route::apiResource('addresses', AddressController::class);
+    Route::apiResource('images', ImageController::class);
 });
 
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
@@ -39,4 +47,5 @@ Route::apiResource('attributes', AttributeController::class)->only(['index', 'sh
 Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
 Route::apiResource('materials', MaterialController::class)->only(['index', 'show']);
 Route::apiResource('skus', SkuController::class)->only(['index', 'show']);
+Route::apiResource('crafters', CrafterController::class)->only(['index', 'show']);
 
