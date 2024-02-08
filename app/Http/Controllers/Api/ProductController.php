@@ -91,6 +91,7 @@ class ProductController extends Controller
                 'unit_price' => $skuData['unit_price'],
                 'status' => $skuData['status'],
                 'is_active' => $skuData['is_active'],
+                'stock' => $skuData['stock']
             ]);
 
             // Check for skus attributes and attach them

@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'skus.*.unit_price' => 'required|numeric',
             'skus.*.status' => 'required|integer',
             'skus.*.is_active' => 'required|integer',
+            'skus.*.stock' => 'required|integer',
 
             //sku must have attributes if more than one sku
             'skus.*.attributes' => [
