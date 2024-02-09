@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CustomizationController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Customization::class, 'customization');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class CrafterController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Crafter::class, 'crafter');
+    }
     /**
      * Display a listing of the resource.
      */

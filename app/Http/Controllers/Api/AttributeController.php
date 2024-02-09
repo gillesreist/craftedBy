@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class AttributeController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Attribute::class, 'attribute');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class SkuController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Sku::class, 'sku');
+    }
+
     /**
      * Display a listing of the resource.
      */

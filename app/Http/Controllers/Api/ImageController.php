@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Image::class, 'image');
+    }
+
     /**
      * Display a listing of the resource.
      */

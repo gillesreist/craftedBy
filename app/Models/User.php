@@ -76,5 +76,13 @@ class User extends Authenticatable
         $this->attributes['role'] = constant("App\Enums\RoleEnum::$roleName");
     }
 
+    public function isAdmin() {
+        return $this->role === "ADMIN";
+    }
+
+    public function isCrafter() {
+        return $this->role === "CRAFTER";
+    }
+
 
 }

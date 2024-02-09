@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Material::class, 'material');
+    }
+
      /**
      * Display a listing of the resource.
      */
