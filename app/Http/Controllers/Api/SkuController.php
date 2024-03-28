@@ -17,9 +17,32 @@ class SkuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Sku::all();
+        $skus = Sku::query()
+            ->when($request->has('materials'), function ($query) use ($request) {
+                $materials = explode(',', $request->query('materials', ''));
+                $query->whereHas('product.materials', function ($query) use ($materials) {
+                    $query->whereIn('name', $materials);
+                });
+            })
+            ->when($request->has('categories'), function ($query) use ($request) {
+                $categories = explode(',', $request->query('categories', ''));
+                $query->whereHas('product.categories', function ($query) use ($categories) {
+                    $query->whereIn('name', $categories);
+                });
+            })
+            ->when($request->has('input'), function ($query) use ($request) {
+                $input = $request->input('input');
+                $keywords = explode(' ', $input);
+                foreach ($keywords as $keyword) {
+                    $query->where('name', 'like', '%'.$keyword.'%');
+                }
+            })
+            ->with(['product:id,description','images'])
+            ->paginate(15);
+
+        return $skus;
     }
 
     /**

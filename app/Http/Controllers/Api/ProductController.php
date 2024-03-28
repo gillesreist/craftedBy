@@ -25,6 +25,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        
         $products = Product::query()
 
         ->when($request->has('materials'), function ($query) use ($request) {
@@ -39,12 +40,21 @@ class ProductController extends Controller
                 $query->whereIn('name', $categories);
             });
         })
+        ->when($request->has('input'), function ($query) use ($request) {
+            $input = $request->input('input');
+            $keywords = explode(' ', $input);
+            foreach ($keywords as $keyword) {
+                $query->where('name', 'like', '%'.$keyword.'%');
+            }
+        })
         ->with([
             'categories','materials','skus.attributes' => function ($query) {
                 $query->select('name', 'attribute_value');
             }
         ])
-        ->get();
+        // ->get()
+        ->paginate(15)
+        ;
 
         return $products;
 
