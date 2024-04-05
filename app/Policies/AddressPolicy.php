@@ -5,9 +5,10 @@ namespace App\Policies;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AddressPolicy
-{    
+{
     /**
      * Perform pre-authorization checks.
      */
@@ -16,7 +17,7 @@ class AddressPolicy
         if ($user->isAdmin()) {
             return true;
         }
-    
+
         return null;
     }
 
@@ -25,6 +26,25 @@ class AddressPolicy
      */
     public function viewAny(User $user): bool
     {
+        // If request has a username param
+        if (request()->has('username')) {
+
+            // If user is authenticated
+            if (Auth::check()) {
+
+                // Get username param from request
+                $username = request()->input('username');
+
+                // Get user
+                $authenticatedUser = Auth::user();
+
+                // Check if username is the authenticated user's one
+                if ($authenticatedUser->email === $username) {
+                    // If true, authorize request
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

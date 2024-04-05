@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use App\Models\Address;
+
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -31,11 +33,15 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
-             'password' => $this->passwordRules(),
+            'first_address_line' => ['required', 'string', 'max:255'],
+            'second_address_line' => ['nullable', 'string', 'max:255'],
+            'postal_code' => ['required', 'string', 'max:55'],
+            'city' => ['required', 'string', 'max:255'],
+            'password' => $this->passwordRules(),
         ])->validate();
 
 
-        return User::create([
+        $user =  User::create([
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'birthdate' => $input['birthdate'],
@@ -43,5 +49,19 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        Address::create([
+            'user_id' => $user->id,
+            'name' => 'standard',
+            'type' => 'BOTH',
+            'firstname' => $input['firstname'],
+            'lastname' => $input['lastname'],
+            'first_address_line' => $input['first_address_line'],
+            'second_address_line' => $input['second_address_line'],
+            'postal_code' => $input['postal_code'],
+            'city' => $input['city'],
+        ]);
+
+        return $user;
     }
 }

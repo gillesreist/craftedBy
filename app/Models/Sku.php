@@ -16,7 +16,7 @@ class Sku extends Model
     use HasFactory, HasUuids, HasSlug;
 
     protected $guarded = [];
-    protected $hidden = ['id', 'product_id', 'created_at', 'updated_at', 'pivot'];
+    protected $hidden = ['product_id', 'created_at', 'updated_at', 'pivot'];
 
 
     public function product(): BelongsTo

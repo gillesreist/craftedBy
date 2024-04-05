@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AddressController extends Controller
 {
@@ -17,9 +19,15 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Address::all();
+        $addresses = Address::query()
+        ->when($request->has('username'), function ($query) use ($request) {
+            $userId = User::where('email', $request->input('username'))->value('id');
+            $query->where('user_id', $userId);
+        })
+        ->get();
+        return $addresses;
     }
 
     /**
