@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             
-            AttributeSeeder::class,
-            CustomizationSeeder::class,
-            MaterialSeeder::class,
-            CategorySeeder::class,
-            TaxSeeder::class,
+            // AttributeSeeder::class,
+            // CustomizationSeeder::class,
+            // MaterialSeeder::class,
+            // CategorySeeder::class,
+            // TaxSeeder::class,
+            // CrafterSeeder::class,
+            // ProductSeeder::class,
+            // OrderSeeder::class,
             UserSeeder::class,
-            CrafterSeeder::class,
-            ProductSeeder::class,
-            OrderSeeder::class,
         ]);
     }
 }
