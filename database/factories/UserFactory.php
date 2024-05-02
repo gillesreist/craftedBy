@@ -29,12 +29,12 @@ class UserFactory extends Factory
 
             'firstname' => fake()->firstName(),
             'lastname' => fake()->LastName(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => "admin@admin.com",
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'birthdate' => fake()->date(),
-            'role' => rand(0,2),
+            'role' => 0,
             'phone_number' => fake()->phoneNumber(),
 
         ];
