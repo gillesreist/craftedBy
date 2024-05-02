@@ -13,11 +13,15 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // User::factory()
+        //     ->count(50)
+        //     ->hasImages(0,1)
+        //     ->hasOrders(rand(0,2))
+        //     ->hasAddresses(rand(1,2))
+        //     ->create();
+
         User::factory()
-            ->count(50)
-            ->hasImages(0,1)
-            ->hasOrders(rand(0,2))
-            ->hasAddresses(rand(1,2))
+            ->count(1)
             ->create();
     }
 }
