@@ -39,8 +39,12 @@ jobs:
     name: Continuous Deployment
     needs: [docker_build]
     steps:
-      - name: Deploy docker container webhook
-        uses: joelwmale/webhook-action@master
-        env:
-          WEBHOOK_URL: http://${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}/hooks/redeploy-laravel
-          data: ""
+       - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            cd /srv/expressjs/;docker stop expressjs;docker rm expressjs;docker pull gvgodfrey/expressjs:latest;docker-compose up -d
