@@ -4,6 +4,9 @@ name: Rector
 on:
     pull_request: null
 
+permissions:
+  contents: write
+
 jobs:
     rector:
         runs-on: ubuntu-latest
