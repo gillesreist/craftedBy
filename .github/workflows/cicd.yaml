@@ -39,7 +39,7 @@ jobs:
     name: Continuous Deployment
     needs: [docker_build]
     steps:
-       - name: Deploy using ssh
+      - name: Deploy using ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
