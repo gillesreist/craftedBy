@@ -35,7 +35,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user->isAdmin();
         return $user->load([
             'addresses', 'crafter', 'images', 'orders'
         ]);
