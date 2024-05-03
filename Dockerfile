@@ -12,7 +12,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # install application dependencies
 WORKDIR /var/www/laravel
-COPY ./src/composer.json ./src/composer.lock* ./
+COPY ./composer.json ./composer.lock* ./
 RUN composer install --no-scripts --no-autoloader --ansi --no-interaction
 
 # add custom php-fpm pool settings, these get written at entrypoint startup
@@ -37,7 +37,7 @@ COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
 
 # copy application code
 WORKDIR /var/www/laravel
-COPY ./src .
+COPY . .
 RUN composer dump-autoload -o \
     && chown -R :www-data /var/www/laravel \
     && chmod -R 775 /var/www/laravel/storage /var/www/laravel/bootstrap/cache
