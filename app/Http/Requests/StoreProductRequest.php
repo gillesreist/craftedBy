@@ -45,6 +45,7 @@ class StoreProductRequest extends FormRequest
                     if (count($names) !== count(array_unique($names))) {
                         $fail('The attribute names must be unique among all skus.');
                     }
+
                     return true;
                 }),
             ],
