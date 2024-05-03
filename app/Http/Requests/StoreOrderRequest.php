@@ -27,14 +27,10 @@ class StoreOrderRequest extends FormRequest
         return [
             'delivery_address' => [
                 'required',
-                Rule::exists('addresses', 'id')->where(function ($query) {
-                    return $query->where('user_id', auth()->id());
-                })
+                Rule::exists('addresses', 'id')->where(static fn($query) => $query->where('user_id', auth()->id()))
             ],
             'facturation_address' => [
-                Rule::exists('addresses', 'id')->where(function ($query) {
-                    return $query->where('user_id', auth()->id());
-                })
+                Rule::exists('addresses', 'id')->where(static fn($query) => $query->where('user_id', auth()->id()))
             ],
             'skus' => 'required|array',
             'skus.*' => 'required',
@@ -51,11 +47,12 @@ class StoreOrderRequest extends FormRequest
                         $fail('La quantité doit être supérieure à zéro.');
                         return;
                     }
+
                     // Get sku index in cart
                     $key = explode('.', $attribute)[1];
 
                     // Get sku id
-                    $skuId = $this->input("skus.{$key}.id");
+                    $skuId = $this->input(sprintf('skus.%s.id', $key));
 
                     // Get sku
                     $sku = Sku::find($skuId);

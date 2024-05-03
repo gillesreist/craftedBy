@@ -21,13 +21,12 @@ class AddressController extends Controller
      */
     public function index(Request $request)
     {
-        $addresses = Address::query()
-        ->when($request->has('username'), function ($query) use ($request) {
+        return Address::query()
+        ->when($request->has('username'), static function ($query) use ($request) {
             $userId = User::where('email', $request->input('username'))->value('id');
             $query->where('user_id', $userId);
         })
         ->get();
-        return $addresses;
     }
 
     /**
@@ -59,7 +58,7 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Address $address)
+    public function destroy(Address $address): void
     {
         $address->delete();
     }

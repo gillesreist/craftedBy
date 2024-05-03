@@ -49,7 +49,7 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Material $material)
+    public function destroy(Material $material): void
     {
         $material->delete();
     }

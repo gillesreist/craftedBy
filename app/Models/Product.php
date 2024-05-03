@@ -13,8 +13,9 @@ use Spatie\Sluggable\SlugOptions;
 
 class Product extends Model
 {
-    use HasFactory, HasUuids,HasSlug;
-
+    use HasFactory;
+    use HasUuids;
+    use HasSlug;
     protected $guarded = [];
 
     protected $hidden = ['id', 'created_at', 'updated_at', 'customization_id', 'crafter_id', 'pivot'];

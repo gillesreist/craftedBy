@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
-    use HasFactory, HasUuids;
-
+    use HasFactory;
+    use HasUuids;
     protected $guarded = [];
 
     public function imageable():MorphTo

@@ -26,21 +26,21 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         
-        $products = Product::query()
+        return Product::query()
 
-        ->when($request->has('materials'), function ($query) use ($request) {
+        ->when($request->has('materials'), static function ($query) use ($request) {
             $materials = explode(',', $request->query('materials', ''));
-            $query->whereHas('materials', function ($query) use ($materials) {
+            $query->whereHas('materials', static function ($query) use ($materials) {
                 $query->whereIn('name', $materials);
             });
         })
-        ->when($request->has('categories'), function ($query) use ($request) {
+        ->when($request->has('categories'), static function ($query) use ($request) {
             $categories = explode(',', $request->query('categories', ''));
-            $query->whereHas('categories', function ($query) use ($categories) {
+            $query->whereHas('categories', static function ($query) use ($categories) {
                 $query->whereIn('name', $categories);
             });
         })
-        ->when($request->has('input'), function ($query) use ($request) {
+        ->when($request->has('input'), static function ($query) use ($request) {
             $input = $request->input('input');
             $keywords = explode(' ', $input);
             foreach ($keywords as $keyword) {
@@ -48,15 +48,12 @@ class ProductController extends Controller
             }
         })
         ->with([
-            'categories','materials','skus.attributes' => function ($query) {
+            'categories','materials','skus.attributes' => static function ($query) {
                 $query->select('name', 'attribute_value');
             }
         ])
         // ->get()
-        ->paginate(15)
-        ;
-
-        return $products;
+        ->paginate(15);
 
     }
 
@@ -97,6 +94,7 @@ class ProductController extends Controller
                 $product->customization()->associate($customization->id);
             }
         }
+
         // Create and attach skus to product
         foreach ($request->skus as $skuData) {
             $skuData['product_id'] = $product->id;
@@ -129,7 +127,7 @@ class ProductController extends Controller
     {
         return $product->load([
             'categories', 'materials', 'customization',
-            'skus.attributes' => function ($query) {
+            'skus.attributes' => static function ($query) {
                 $query->select('name', 'attribute_value');
             }
         ]);
@@ -182,7 +180,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): void
     {
         $skus = $product->skus;
         foreach ($skus as $sku) {

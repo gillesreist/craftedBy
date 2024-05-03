@@ -49,7 +49,7 @@ class TaxController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tax $tax)
+    public function destroy(Tax $tax): void
     {
         $tax->delete();
     }

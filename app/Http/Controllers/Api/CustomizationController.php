@@ -50,7 +50,7 @@ class CustomizationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customization $customization)
+    public function destroy(Customization $customization): void
     {
         $customization->delete();
     }

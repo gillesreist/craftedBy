@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Crafter extends Model
 {
-    use HasFactory, HasUuids;
-
+    use HasFactory;
+    use HasUuids;
     protected $guarded = [];
 
     protected $hidden = ['id', 'user_id', 'created_at', 'updated_at'];

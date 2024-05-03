@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Material extends Model
 {
-    use HasFactory, HasUuids;
-
+    use HasFactory;
+    use HasUuids;
     protected $guarded = [];
 
     protected $hidden = ['id', 'created_at', 'updated_at', 'pivot'];

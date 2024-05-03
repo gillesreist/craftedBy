@@ -12,6 +12,7 @@ class CrafterController extends Controller
     {
         $this->authorizeResource(Crafter::class, 'crafter');
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -49,7 +50,7 @@ class CrafterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Crafter $crafter)
+    public function destroy(Crafter $crafter): void
     {
         $crafter->delete();
     }

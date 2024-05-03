@@ -36,7 +36,7 @@ class AttributeController extends Controller
      */
     public function show(Attribute $attribute)
     {
-        return $attribute->skus()->with(['attributes' => function ($query) {
+        return $attribute->skus()->with(['attributes' => static function ($query) {
             $query->select('attributes.*', 'attribute_sku.attribute_value');
         }])->get();
     }
@@ -53,7 +53,7 @@ class AttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attribute $attribute)
+    public function destroy(Attribute $attribute): void
     {
         $attribute->delete();
     }

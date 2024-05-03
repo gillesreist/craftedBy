@@ -16,7 +16,7 @@ class ProductPolicy
         if ($user->isAdmin()) {
             return true;
         }
-        
+
         return null;
     }
 
@@ -44,7 +44,7 @@ class ProductPolicy
         if ($user->isCrafter()) {
             return true;
         }
-        
+
         return false;
     }
 

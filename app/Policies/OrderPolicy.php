@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class OrderPolicy
 {
-    
+
     /**
      * Perform pre-authorization checks.
      */
@@ -17,7 +17,7 @@ class OrderPolicy
         if ($user->isAdmin()) {
             return true;
         }
-    
+
         return null;
     }
 

@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customization extends Model
 {
-    use HasFactory, HasUuids;
-
+    use HasFactory;
+    use HasUuids;
     protected $guarded = [];
+
     protected $hidden = ['id', 'created_at', 'updated_at'];
 
 

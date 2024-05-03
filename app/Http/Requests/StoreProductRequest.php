@@ -34,39 +34,33 @@ class StoreProductRequest extends FormRequest
 
             //sku must have attributes if more than one sku
             'skus.*.attributes' => [
-                Rule::requiredIf(function () {
-                    return count(request('skus')) > 1;
-                }),
+                Rule::requiredIf(static fn() => count(request('skus')) > 1),
                 'array'
             ],
 
             //each sku doesn't have same attribute several times
             'skus.*.attributes' => [
-                (function ($attribute, $value, $fail) {
+                (static function ($attribute, $value, $fail) {
                     $names = array_column($value, 'name');
                     if (count($names) !== count(array_unique($names))) {
                         $fail('The attribute names must be unique among all skus.');
                     }
-
                     return true;
                 }),
             ],
 
             //each sku must not have the same attributes combination
             'skus' => [
-                function ($attribute, $value, $fail) {
+                static function ($attribute, $value, $fail) {
                     // For stocking each sku attributes combination
                     $attributeValues = [];
-
                     foreach ($value as $skuData) {
                         // Check if there is attributes
                         if (isset($skuData['attributes']) && is_array($skuData['attributes'])) {
                             $attributes = $skuData['attributes'];
 
                             // Sort attributes by names
-                            usort($attributes, function ($a, $b) {
-                                return $a['name'] <=> $b['name'];
-                            });
+                            usort($attributes, static fn($a, $b) => $a['name'] <=> $b['name']);
 
                             // Generate key for this set of attributes
                             $key = json_encode($attributes);

@@ -16,8 +16,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUuids;
-
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasUuids;
     /**
      * The attributes that are mass assignable.
      *
@@ -73,7 +75,7 @@ class User extends Authenticatable
  
     public function setRoleAttribute($roleName): void
     {
-        $this->attributes['role'] = constant("App\Enums\RoleEnum::$roleName");
+        $this->attributes['role'] = constant(\App\Enums\RoleEnum::class . '::' . $roleName);
     }
 
     public function isAdmin() {

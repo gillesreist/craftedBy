@@ -51,7 +51,7 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Image $image)
+    public function destroy(Image $image): void
     {
         $image->delete();
     }

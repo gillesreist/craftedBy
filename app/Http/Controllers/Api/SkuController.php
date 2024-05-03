@@ -19,20 +19,20 @@ class SkuController extends Controller
      */
     public function index(Request $request)
     {
-        $skus = Sku::query()
-            ->when($request->has('materials'), function ($query) use ($request) {
+        return Sku::query()
+            ->when($request->has('materials'), static function ($query) use ($request) {
                 $materials = explode(',', $request->query('materials', ''));
-                $query->whereHas('product.materials', function ($query) use ($materials) {
+                $query->whereHas('product.materials', static function ($query) use ($materials) {
                     $query->whereIn('name', $materials);
                 });
             })
-            ->when($request->has('categories'), function ($query) use ($request) {
+            ->when($request->has('categories'), static function ($query) use ($request) {
                 $categories = explode(',', $request->query('categories', ''));
-                $query->whereHas('product.categories', function ($query) use ($categories) {
+                $query->whereHas('product.categories', static function ($query) use ($categories) {
                     $query->whereIn('name', $categories);
                 });
             })
-            ->when($request->has('input'), function ($query) use ($request) {
+            ->when($request->has('input'), static function ($query) use ($request) {
                 $input = $request->input('input');
                 $keywords = explode(' ', $input);
                 foreach ($keywords as $keyword) {
@@ -41,8 +41,6 @@ class SkuController extends Controller
             })
             ->with(['product:id,description','images'])
             ->paginate(15);
-
-        return $skus;
     }
 
     /**
@@ -79,7 +77,7 @@ class SkuController extends Controller
      */
     public function show(Sku $sku)
     {
-        return $sku->load(['attributes' => function ($query) {
+        return $sku->load(['attributes' => static function ($query) {
             $query->select('name', 'attribute_value');
         }]);
     }
@@ -115,7 +113,7 @@ class SkuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sku $sku)
+    public function destroy(Sku $sku): void
     {
         $sku->attributes()->detach();
         $sku->delete();

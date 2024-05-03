@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Address extends Model
 {
-    use HasFactory, HasUuids;
-
+    use HasFactory;
+    use HasUuids;
     protected $guarded = [];
 
     public function user(): BelongsTo
@@ -27,7 +27,7 @@ class Address extends Model
  
     public function setTypeAttribute($typeName): void
     {
-        $this->attributes['type'] = constant("App\Enums\AddressEnum::$typeName");
+        $this->attributes['type'] = constant(\App\Enums\AddressEnum::class . '::' . $typeName);
     }
 
 
