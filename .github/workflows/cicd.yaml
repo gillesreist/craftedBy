@@ -47,4 +47,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd /srv/expressjs/;docker stop expressjs;docker rm expressjs;docker pull gvgodfrey/expressjs:latest;docker-compose up -d
+            cd /home/ubuntu/trafik;docker stop traefik-laravel-1;docker rm traefik-laravel-1;docker pull gillesreist/laravel-app:latest;docker-compose up -d
