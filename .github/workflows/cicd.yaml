@@ -42,5 +42,5 @@ jobs:
       - name: Deploy docker container webhook
         uses: joelwmale/webhook-action@master
         env:
-          WEBHOOK_URL: http://${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}/hooks/redeploy-laravel
+          WEBHOOK_URL: http://${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}/home/ubuntu/hooks/redeploy-laravel
           data: ""
