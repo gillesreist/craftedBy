@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AttributeController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CrafterController;
 use App\Http\Controllers\Api\CustomizationController;
+use App\Http\Controllers\Api\GouvController;
 use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\OrderController;
@@ -48,4 +49,6 @@ Route::apiResource('categories', CategoryController::class)->only(['index', 'sho
 Route::apiResource('materials', MaterialController::class)->only(['index', 'show']);
 Route::apiResource('skus', SkuController::class)->only(['index', 'show']);
 Route::apiResource('crafters', CrafterController::class)->only(['index', 'show']);
+
+Route::post('gouv', [GouvController::class, 'show']);
 
