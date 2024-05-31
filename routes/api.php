@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\MaterialController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SkuController;
+use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\TaxController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -50,5 +51,8 @@ Route::apiResource('materials', MaterialController::class)->only(['index', 'show
 Route::apiResource('skus', SkuController::class)->only(['index', 'show']);
 Route::apiResource('crafters', CrafterController::class)->only(['index', 'show']);
 
-Route::post('gouv', [GouvController::class, 'show']);
+Route::post('gouv', [GouvController::class, 'index']);
+Route::post('payment/initiate', [StripeController::class, 'initiatePayment']);
+Route::post('payment/complete', [StripeController::class, 'completePayment']);
+Route::post('payment/failure', [StripeController::class, 'failPayment']);
 

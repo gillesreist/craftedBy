@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class GouvController extends Controller
 {
-    public function show(Request $request)
+    public function index(Request $request)
     {
         $requestURL = 'https://api-adresse.data.gouv.fr/search/?q='.urlencode($request['query']);
         $response = Http::get($requestURL);

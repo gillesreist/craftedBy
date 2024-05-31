@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreOrderRequest;
+use App\Models\Address;
 use App\Models\Sku;
 use App\Models\Tax;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreOrderRequest $request)
-    {    
+    {
         $validatedData = $request->validated();
 
         $total_price = 0;
@@ -41,24 +42,28 @@ class OrderController extends Controller
             $sku = Sku::find($skuData['id']);
             $total_price += $sku->unit_price * $skuData['quantity'];
         }
-    
+
         // * prepare the order with the total price in the order_price
         $orderData = [
             'user_id' => Auth::id(),
             'status' => OrderStatusEnum::WAITINGFORPAYMENT,
             'date' => now(),
-            'delivery_address' => $validatedData['delivery_address'],
             'price' => $total_price,
         ];
-        
+
+        // * create addresses string
+
+        $delivery_address = Address::find($validatedData['delivery_address']);
+        $orderData['delivery_address'] = $this->formatAddress($delivery_address);
+
         // * if there is a facturation address
         if (isset($validatedData['facturation_address'])) {
-            $orderData['facturation_address'] = $validatedData['facturation_address'];
+            $facturation_address = Address::find($validatedData['facturation_address']);
+            $orderData['facturation_address'] = $this->formatAddress($facturation_address);
         }
-        
+
         // * create the order
         $order = Order::create($orderData);
-
 
         $tax = Tax::where('name', 'consequatur')->first();
         // * Attach skus to orders in the orders_sku table
@@ -72,7 +77,7 @@ class OrderController extends Controller
                 'quantity' => $skuData['quantity'],
             ]);
         }
-    
+
         return response()->json(['message' => "Order created with success", "id" => $order->id], 201);
     }
 
@@ -99,5 +104,18 @@ class OrderController extends Controller
     public function destroy(Order $order): void
     {
         $order->delete();
+    }
+
+    private function formatAddress(Address $address)
+    {
+        return sprintf(
+            "%s %s %s %s %s %s",
+            $address->firstname,
+            $address->lastname,
+            $address->first_address_line,
+            $address->second_address_line ? $address->second_address_line . ', ' : '',
+            $address->postal_code,
+            $address->city
+        );
     }
 }
