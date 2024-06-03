@@ -10,11 +10,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
+use App\Services\StockService;
 use Illuminate\Support\Str;
 use Stripe\Stripe as StripeGateway;
 
 class StripeController extends Controller
 {
+    protected $stockService;
+
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
+    }
 
     public function initiatePayment(Request $request)
     {
@@ -55,8 +62,6 @@ class StripeController extends Controller
         // Use the payment intent ID stored when initiating payment
         $paymentDetail = $stripe->paymentIntents->retrieve($request->stripe_id);
 
-        Log::debug($paymentDetail);
-
         if ($paymentDetail->status != 'succeeded') {
             return [
                 'message' => (string) "erreur sur stripe"
@@ -67,12 +72,12 @@ class StripeController extends Controller
 
         $order = Order::where('stripe_id', $request->stripe_id)->first();
 
-        Log::debug($order);
-
         if ($order) {
             $order->status = OrderStatusEnum::PAYMENTVALIDATED->value;;
 
             $order->save();
+
+            $this->stockService->updateStock($order);
 
             return response()->json([
                 'message' => 'Order status updated successfully',

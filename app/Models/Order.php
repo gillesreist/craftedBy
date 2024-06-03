@@ -22,6 +22,6 @@ class Order extends Model
 
     public function skus(): BelongsToMany
     {
-        return $this->belongsToMany(Sku::class)->withPivot('name','unit_price','quantity','tax_id');
+        return $this->belongsToMany(Sku::class)->withPivot('sku_name','sku_unit_price','quantity','tax_id');
     }
 }
