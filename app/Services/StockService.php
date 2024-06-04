@@ -13,9 +13,7 @@ class StockService
     /**
      * Update the stock of a product.
      *
-     * @param int $productId
-     * @param int $quantity
-     * @return bool
+     * @param Order $order
      */
     public function updateStock(Order $order)
     {

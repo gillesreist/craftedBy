@@ -11,6 +11,7 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "laraveldaily/laravel-invoices": "^4.0",
         "mindee/mindee": "^1.7",
         "spatie/laravel-sluggable": "^3.5",
         "stripe/stripe-php": "^14.8"

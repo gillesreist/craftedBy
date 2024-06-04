@@ -11,17 +11,21 @@ use Illuminate\Support\Facades\Log;
 use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 use App\Services\StockService;
+use App\Services\InvoicesService;
 use Illuminate\Support\Str;
 use Stripe\Stripe as StripeGateway;
 
 class StripeController extends Controller
 {
     protected $stockService;
+    protected $invoicesService;
 
-    public function __construct(StockService $stockService)
+    public function __construct(StockService $stockService,InvoicesService $invoicesService)
     {
         $this->stockService = $stockService;
+        $this->invoicesService = $invoicesService;
     }
+
 
     public function initiatePayment(Request $request)
     {
@@ -79,9 +83,11 @@ class StripeController extends Controller
 
             $this->stockService->updateStock($order);
 
-            return response()->json([
-                'message' => 'Order status updated successfully',
-            ], 200);
+
+            // return response()->json([
+            //     'message' => 'Order status updated successfully',
+            // ], 200);
+            return $this->invoicesService->createInvoice($order);
         } else {
             return response()->json([
                 'message' => 'Order not found',
