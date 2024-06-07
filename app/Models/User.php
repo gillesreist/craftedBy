@@ -70,12 +70,13 @@ class User extends Authenticatable
 
     public function getRoleAttribute(): string
     {
-        return RoleEnum::from($this->attributes['role'])->name;
+        $roleValue = (int) $this->attributes['role'];
+        return RoleEnum::from($roleValue)->name;
     }
  
     public function setRoleAttribute($roleName): void
     {
-        $this->attributes['role'] = constant(\App\Enums\RoleEnum::class . '::' . $roleName);
+        $this->attributes['role'] = constant(\App\Enums\RoleEnum::class . '::' . $roleName)->value;
     }
 
     public function isAdmin() {
